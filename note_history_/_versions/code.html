@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Note History / Versions</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3713ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1b2e",
+                        "border-dark": "#292348",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white font-display overflow-hidden flex flex-col h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-border-dark bg-background-dark px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-white">
+<a class="flex items-center justify-center text-white/70 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div class="h-6 w-[1px] bg-border-dark"></div>
+<div class="flex flex-col">
+<h2 class="text-white text-base font-bold leading-tight tracking-[-0.015em]">Meeting Notes</h2>
+<div class="flex items-center gap-1 text-xs text-[#9b92c9]">
+<span>Project Alpha</span>
+<span>/</span>
+<span>Version History</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4">
+<button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors text-white text-sm font-medium">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+<span class="hidden sm:inline">Make a Copy</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Done</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Version Timeline -->
+<aside class="w-80 flex flex-col border-r border-r-border-dark bg-background-dark/50 overflow-y-auto shrink-0 custom-scrollbar">
+<div class="p-4 sticky top-0 bg-background-dark z-10 border-b border-b-border-dark">
+<h3 class="text-white text-lg font-bold leading-tight">Version Timeline</h3>
+<p class="text-[#9b92c9] text-sm mt-1">Select a version to preview</p>
+</div>
+<div class="flex flex-col py-2">
+<!-- Timeline Item: Current -->
+<div class="group relative flex gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors">
+<div class="absolute left-[27px] top-8 bottom-[-20px] w-[2px] bg-border-dark group-last:hidden"></div>
+<div class="flex flex-col items-center mt-1 z-10">
+<div class="size-2 rounded-full bg-primary ring-4 ring-primary/20"></div>
+</div>
+<div class="flex flex-1 flex-col">
+<div class="flex justify-between items-start">
+<span class="text-white text-sm font-semibold">Current Version</span>
+<span class="text-[#9b92c9] text-xs">Just now</span>
+</div>
+<p class="text-[#9b92c9] text-xs mt-0.5">Edited by You</p>
+</div>
+</div>
+<!-- Timeline Item: Selected (Active) -->
+<div class="group relative flex gap-3 px-4 py-3 bg-primary/10 border-l-2 border-primary cursor-pointer transition-colors">
+<div class="absolute left-[27px] top-[-20px] bottom-[-20px] w-[2px] bg-border-dark"></div>
+<div class="flex flex-col items-center mt-1 z-10">
+<div class="flex items-center justify-center size-6 rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-[14px]">smart_toy</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col pl-1">
+<div class="flex justify-between items-start">
+<span class="text-white text-sm font-semibold">AI Refinement</span>
+<span class="text-[#9b92c9] text-xs">2 mins ago</span>
+</div>
+<div class="flex items-center gap-1.5 mt-1">
+<span class="bg-primary/20 text-primary-light text-[10px] font-bold px-1.5 py-0.5 rounded text-[#a594f9]">AI GENERATED</span>
+<span class="text-[#9b92c9] text-xs">• 14 changes</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="group relative flex gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors">
+<div class="absolute left-[27px] top-[-20px] bottom-[-20px] w-[2px] bg-border-dark"></div>
+<div class="flex flex-col items-center mt-1 z-10">
+<div class="flex items-center justify-center size-6 rounded-full bg-surface-dark border border-border-dark text-[#9b92c9]">
+<span class="material-symbols-outlined text-[14px]">edit</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col pl-1">
+<div class="flex justify-between items-start">
+<span class="text-[#e0e0e0] text-sm font-medium">Manual Edit</span>
+<span class="text-[#9b92c9] text-xs">15 mins ago</span>
+</div>
+<p class="text-[#9b92c9] text-xs mt-0.5">You fixed 3 typos</p>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="group relative flex gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors">
+<div class="absolute left-[27px] top-[-20px] bottom-[-20px] w-[2px] bg-border-dark"></div>
+<div class="flex flex-col items-center mt-1 z-10">
+<div class="flex items-center justify-center size-6 rounded-full bg-surface-dark border border-border-dark text-[#9b92c9]">
+<span class="material-symbols-outlined text-[14px]">description</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col pl-1">
+<div class="flex justify-between items-start">
+<span class="text-[#e0e0e0] text-sm font-medium">Initial Draft</span>
+<span class="text-[#9b92c9] text-xs">1 hour ago</span>
+</div>
+<p class="text-[#9b92c9] text-xs mt-0.5">Imported from Quick Notes</p>
+</div>
+</div>
+<!-- Timeline Item: Old -->
+<div class="group relative flex gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors">
+<div class="absolute left-[27px] top-[-20px] bottom-8 w-[2px] bg-border-dark"></div>
+<div class="flex flex-col items-center mt-1 z-10">
+<div class="flex items-center justify-center size-6 rounded-full bg-surface-dark border border-border-dark text-[#9b92c9]">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</div>
+</div>
+<div class="flex flex-1 flex-col pl-1">
+<div class="flex justify-between items-start">
+<span class="text-[#e0e0e0] text-sm font-medium">Note Created</span>
+<span class="text-[#9b92c9] text-xs">Yesterday</span>
+</div>
+<p class="text-[#9b92c9] text-xs mt-0.5">You started this doc</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Main Stage: Preview & Compare -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-[#0f0e1a] relative overflow-hidden">
+<!-- Context Bar -->
+<div class="flex items-center justify-between px-6 py-3 border-b border-border-dark bg-background-dark/95 backdrop-blur-sm z-10">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div>
+<p class="text-white text-sm font-bold">Viewing: AI Refinement</p>
+<p class="text-[#9b92c9] text-xs">Oct 24 • 2:28 PM</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Compare Toggle -->
+<div class="flex items-center gap-2 bg-surface-dark rounded-full p-1 pl-3 border border-border-dark">
+<span class="text-xs font-medium text-[#9b92c9]">Compare with previous</span>
+<div class="relative inline-flex h-5 w-9 items-center rounded-full bg-primary cursor-pointer">
+<span class="translate-x-4 inline-block size-3 transform rounded-full bg-white transition shadow-sm"></span>
+</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium border border-white/10">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                        Restore Version
+                    </button>
+</div>
+</div>
+<!-- Document Content Canvas -->
+<div class="flex-1 overflow-y-auto p-8 lg:px-20">
+<div class="max-w-[800px] mx-auto min-h-full bg-surface-dark rounded-xl border border-border-dark shadow-xl p-10 lg:p-14 mb-10">
+<!-- Title -->
+<div class="mb-8">
+<h1 class="text-4xl font-bold text-white tracking-tight mb-4 font-display">Q4 Marketing Strategy</h1>
+<div class="flex items-center gap-3 text-sm text-[#9b92c9]">
+<div class="flex items-center gap-1">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Avatar of user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC37wSGt1X6TWp5y_bZiVeEUbhnpCxJPRk4zfQkxiRWtECi-PikgjGb4hiEXmbhkuBpziQ13a1cs0VWI7XkKCMLHL804OOLgQIXS2vN_bsyJAjrv4uocztaduEf8DRyIzQOfer-1cVgY5HgK_oqNRzJVVWcp0a4rcZDhq4-t_r9-_-D1Wqe3Qi5-yNX6yIx4DFekabqntxAvBWWaT8QyIscJ2ihpKGsNTw0LKK8D8OG_hSS8jh7AsNGoFIDnahKChE50T3bguW0xcE");'></div>
+<span>Created by You</span>
+</div>
+<span>•</span>
+<span>Last edited 2 mins ago</span>
+</div>
+</div>
+<!-- Content with Diffs -->
+<div class="space-y-6 text-[#e0e0e0] font-body leading-relaxed text-lg">
+<p>
+                            The primary goal for Q4 is to expand our user base by <span class="bg-red-500/20 text-red-200 line-through decoration-red-500/40 px-1 rounded mx-0.5">15%</span><span class="bg-green-500/20 text-green-200 decoration-green-500/40 px-1 rounded mx-0.5 border-b-2 border-green-500/40">25%</span> through targeted social media campaigns and strategic partnerships. We need to focus on high-conversion channels identified in the Q3 audit.
+                        </p>
+<div class="pl-4 border-l-4 border-green-500/50 bg-green-500/5 p-4 rounded-r-lg my-6">
+<h3 class="text-green-300 font-bold text-base mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                                Key Initiatives
+                            </h3>
+<ul class="list-disc pl-5 space-y-2 text-green-100/80">
+<li>Launch the "Refer a Friend" program by Nov 1st.</li>
+<li>Optimize landing pages for mobile traffic (currently 60% of visitors).</li>
+<li>Collaborate with 3 key influencers in the tech space.</li>
+</ul>
+</div>
+<p>
+                            Budget allocation will be adjusted to prioritize these initiatives. <span class="bg-red-500/20 text-red-200 line-through decoration-red-500/40 px-1 rounded mx-0.5">We will reduce print media spend by 50%.</span> <span class="bg-green-500/20 text-green-200 decoration-green-500/40 px-1 rounded mx-0.5 border-b-2 border-green-500/40">We will reallocate 50% of print media budget to digital ads.</span> This shift aligns with our new digital-first approach.
+                        </p>
+<p>
+                            Metrics for success include CAC (Customer Acquisition Cost), LTV (Lifetime Value), and monthly active users. We will review these metrics bi-weekly.
+                        </p>
+<div class="pl-4 border-l-4 border-red-500/50 bg-red-500/5 p-4 rounded-r-lg my-6 opacity-60">
+<h3 class="text-red-300 font-bold text-base mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">remove_circle</span>
+                                Removed Section: Legacy Channels
+                            </h3>
+<p class="text-red-200/80 line-through">
+                                Maintain current spend on radio and local newspaper ads for brand awareness in secondary markets.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Diff Legend (Optional but helpful) -->
+<div class="absolute bottom-6 right-8 bg-surface-dark border border-border-dark shadow-lg rounded-lg p-3 flex flex-col gap-2 z-20">
+<div class="flex items-center gap-2 text-xs text-[#e0e0e0]">
+<span class="size-3 rounded-sm bg-green-500/20 border border-green-500/40"></span>
+<span>Added by AI</span>
+</div>
+<div class="flex items-center gap-2 text-xs text-[#e0e0e0]">
+<span class="size-3 rounded-sm bg-red-500/20 border border-red-500/40"></span>
+<span>Removed</span>
+</div>
+</div>
+</main>
+</div>
+</body></html>
