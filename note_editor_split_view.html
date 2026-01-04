@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Note Editor - Split View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3713ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                        "surface-dark": "#1e1933",
+                        "surface-darker": "#141122",
+                        "border-dark": "#292348",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for editor areas */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #292348;
+            border-radius: 20px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #3b3267;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+    <!-- Top Navigation Bar -->
+    <header
+        class="flex items-center justify-between border-b border-gray-200 dark:border-border-dark px-6 py-3 bg-white dark:bg-surface-darker z-20 shrink-0">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center justify-center size-8 rounded-lg bg-primary/20 text-primary">
+                <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+            </div>
+            <div>
+                <h1 class="text-base font-bold leading-tight dark:text-white flex items-center gap-2">
+                    Project Alpha Notes
+                    <span
+                        class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-white">edit</span>
+                </h1>
+                <p class="text-xs text-gray-500 dark:text-[#9b92c9]">Last edited 2 mins ago</p>
+            </div>
+        </div>
+        <!-- <div class="hidden md:flex items-center gap-6">
+            <nav class="flex items-center gap-1 bg-gray-100 dark:bg-[#1e1933] p-1 rounded-lg">
+                <button
+                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors bg-white dark:bg-[#292348] shadow-sm text-primary dark:text-white">Editor</button>
+                <button
+                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-[#9b92c9] hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#292348]/50">History</button>
+                <button
+                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-[#9b92c9] hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#292348]/50">Settings</button>
+            </nav>
+        </div> -->
+        <!-- <div class="flex items-center gap-3">
+            <button
+                class="flex items-center justify-center size-9 rounded-full hover:bg-gray-100 dark:hover:bg-[#292348] text-gray-600 dark:text-[#9b92c9] transition-colors">
+                <span class="material-symbols-outlined text-[20px]">notifications</span>
+            </button>
+            <div class="h-6 w-px bg-gray-200 dark:bg-[#292348]"></div>
+            <div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-white dark:border-[#292348] cursor-pointer"
+                data-alt="User profile avatar showing a smiling person"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBda-bDvpFnp-XErcBPKm6zA5RrdUUCyoL1QgaWT50hh7RXjOU38HRmoGVj2LZca0n97hBP9nP2KT_UJnnY27GiBvxd9bidLhXx6W8xHLc5xBqrZC7EwffbqkZ0DkM-eIzn6_RsZF8Ysp2KVoLR_n2NZS_N1FEv3eJbtVqyySy-rUzBoOR8pVTZkKbn95TplcYQ3BcYoAwjKqA2HgEJcz6C6QPJ_wGcdF9OcdRYEnaddZiaX-0-CxnKBMvsniqa4tEephrBssCCmIc");'>
+            </div>
+        </div> -->
+    </header>
+    <!-- Main Content Area -->
+    <main class="flex flex-1 overflow-hidden relative">
+        <!-- Left Pane: User Input -->
+        <section class="flex-1 flex flex-col min-w-[300px] bg-white dark:bg-surface-darker relative group">
+            <!-- Toolbar -->
+            <div
+                class="flex items-center justify-between px-6 py-3 border-b border-gray-100 dark:border-border-dark/50">
+                <div class="flex items-center gap-2 text-gray-400 dark:text-[#9b92c9]">
+                    <span class="material-symbols-outlined text-[20px]">format_bold</span>
+                    <span class="material-symbols-outlined text-[20px]">format_italic</span>
+                    <span class="material-symbols-outlined text-[20px]">format_list_bulleted</span>
+                    <span class="material-symbols-outlined text-[20px]">image</span>
+                </div>
+                <span class="text-xs font-medium text-gray-400 uppercase tracking-wider">Original Input</span>
+            </div>
+            <!-- Editor -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-8">
+                <textarea
+                    class="w-full h-full bg-transparent border-0 focus:ring-0 text-gray-800 dark:text-gray-200 text-lg leading-relaxed resize-none p-0 placeholder-gray-300 dark:placeholder-gray-600 font-display"
+                    placeholder="Start typing your notes here...">Meeting notes regarding Q3 marketing strategy. 
+
+We need to focus on SEO and content creation to drive organic growth. The current numbers are lagging behind the quarterly projections by about 15%. 
+
+Key points discussed:
+- Blog cadence needs to increase to 3x per week.
+- We need a new video series for LinkedIn.
+- Budget approval is pending for the new ad campaign (approx $50k).
+- Competitor analysis shows they are targeting "enterprise automation" keywords heavily.
+
+Action items:
+1. Sarah to draft the content calendar.
+2. Mike to talk to finance about the budget.
+3. Team to review competitor ads by Friday.</textarea>
+            </div>
+        </section>
+        <!-- Divider / Resizer Visual -->
+        <div
+            class="w-[1px] bg-gray-200 dark:bg-border-dark relative flex items-center justify-center z-10 cursor-col-resize hover:bg-primary transition-colors group">
+            <div class="absolute w-4 h-full -left-2 z-10"></div> <!-- Hit area -->
+            <div class="h-8 w-1 rounded-full bg-gray-300 dark:bg-gray-600 group-hover:bg-primary transition-colors">
+            </div>
+        </div>
+        <!-- Right Pane: AI Output -->
+        <section
+            class="flex-1 flex flex-col min-w-[300px] bg-gray-50 dark:bg-[#18152a] border-l border-gray-200 dark:border-border-dark">
+            <!-- AI Toolbar / Mode Selector -->
+            <div
+                class="flex items-center justify-between px-6 py-3 border-b border-gray-200 dark:border-border-dark/50 bg-gray-50/50 dark:bg-[#18152a]/50 backdrop-blur-sm">
+                <!-- Chips -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold shadow-lg shadow-primary/25 transition-transform active:scale-95 whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">summarize</span>
+                        Summary
+                    </button>
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">unfold_more</span>
+                        Expand
+                    </button>
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">school</span>
+                        Critique
+                    </button>
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">translate</span>
+                        Translate
+                    </button>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                    <button class="text-gray-400 hover:text-primary transition-colors" title="Copy to clipboard">
+                        <span class="material-symbols-outlined text-[20px]">content_copy</span>
+                    </button>
+                    <button class="text-gray-400 hover:text-primary transition-colors" title="Regenerate">
+                        <span class="material-symbols-outlined text-[20px]">refresh</span>
+                    </button>
+                </div>
+            </div>
+            <!-- AI Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-8 relative">
+                <!-- Subtle Gradient Background Effect -->
+                <div
+                    class="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none">
+                </div>
+                <div class="relative z-10 space-y-6">
+                    <!-- Result Block -->
+                    <div class="animate-fade-in-up">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">stars</span>
+                            Executive Summary
+                        </h2>
+                        <div
+                            class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-[#c4bcdc] leading-relaxed">
+                            <p class="mb-4">
+                                The Q3 marketing strategy emphasizes a shift towards organic growth channels,
+                                specifically <strong>SEO and content creation</strong>, to address a 15% deficit in
+                                quarterly projections.
+                            </p>
+                            <p class="mb-4">
+                                <strong>Strategic Imperatives:</strong>
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 mb-4 marker:text-primary">
+                                <li>Increase blog production cadence to 3x weekly.</li>
+                                <li>Launch a new LinkedIn video series to boost engagement.</li>
+                                <li>Counter competitor focus on "enterprise automation" keywords.</li>
+                            </ul>
+                            <p class="mb-4">
+                                <strong>Immediate Actions:</strong>
+                            </p>
+                            <div class="flex flex-col gap-2">
+                                <div
+                                    class="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#201c36] border border-gray-200 dark:border-[#3b3267]">
+                                    <input
+                                        class="mt-1 rounded border-gray-300 text-primary focus:ring-primary bg-transparent"
+                                        type="checkbox" />
+                                    <span class="text-sm">Finalize content calendar (Owner: Sarah)</span>
+                                </div>
+                                <div
+                                    class="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#201c36] border border-gray-200 dark:border-[#3b3267]">
+                                    <input
+                                        class="mt-1 rounded border-gray-300 text-primary focus:ring-primary bg-transparent"
+                                        type="checkbox" />
+                                    <span class="text-sm">Secure budget approval for $50k ad spend (Owner: Mike)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Token Usage / Metadata -->
+                    <div
+                        class="pt-8 mt-8 border-t border-gray-200 dark:border-border-dark flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
+                        <span>Generated in 1.2s</span>
+                        <span>145 tokens used</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Floating Action Footer -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 drop-shadow-2xl">
+        <div
+            class="flex items-center gap-2 p-1.5 pl-2 pr-1.5 bg-white dark:bg-[#292348] rounded-xl border border-gray-200 dark:border-[#3b3267] shadow-xl">
+            <div class="flex flex-col px-2">
+                <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Mode</span>
+                <span class="text-xs font-semibold text-gray-800 dark:text-white">Summarize</span>
+            </div>
+            <div class="h-6 w-px bg-gray-200 dark:bg-[#3b3267] mx-1"></div>
+            <button
+                class="flex items-center gap-2 h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-all shadow-lg shadow-primary/30 group">
+                <span class="material-symbols-outlined text-[20px] group-hover:animate-pulse">motion_photos_auto</span>
+                <span>Process with AI</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        // Simple script to demonstrate active state on chips (optional for visual fidelity)
+        const chips = document.querySelectorAll('button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // This is just for interaction feedback in the preview
+            });
+        });
+    </script>
+</body>
+
+</html>
