@@ -10,9 +10,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -37,6 +34,16 @@
                         "2xl": "1rem",
                         "full": "9999px"
                     },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'spin': 'spin 1s linear infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
                 },
             },
         }
@@ -59,6 +66,20 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background-color: #3b3267;
         }
+
+        /* Hide scrollbar for chips container */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            backdrop-filter: blur(4px);
+        }
     </style>
 </head>
 
@@ -68,39 +89,32 @@
     <header
         class="flex items-center justify-between border-b border-gray-200 dark:border-border-dark px-6 py-3 bg-white dark:bg-surface-darker z-20 shrink-0">
         <div class="flex items-center gap-4">
+            <!-- Back Button -->
+            <button id="back-btn"
+                class="flex items-center justify-center size-9 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292348] text-gray-600 dark:text-[#9b92c9] transition-colors"
+                title="Back to Dashboard">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            </button>
             <div class="flex items-center justify-center size-8 rounded-lg bg-primary/20 text-primary">
                 <span class="material-symbols-outlined text-2xl">auto_awesome</span>
             </div>
             <div>
                 <h1 class="text-base font-bold leading-tight dark:text-white flex items-center gap-2">
-                    Project Alpha Notes
-                    <span
-                        class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-white">edit</span>
+                    <span id="note-title-text">Untitled Note</span>
+                    <input type="text" id="note-title-input"
+                        class="hidden bg-transparent border-b border-primary focus:outline-none text-base font-bold dark:text-white w-48"
+                        placeholder="Enter note title..." />
+                    <span id="edit-title-btn"
+                        class="material-symbols-outlined text-gray-400 text-sm cursor-pointer hover:text-white transition-colors">edit</span>
                 </h1>
-                <p class="text-xs text-gray-500 dark:text-[#9b92c9]">Last edited 2 mins ago</p>
+                <p id="last-edited-text" class="text-xs text-gray-500 dark:text-[#9b92c9]">Last edited just now</p>
             </div>
         </div>
-        <!-- <div class="hidden md:flex items-center gap-6">
-            <nav class="flex items-center gap-1 bg-gray-100 dark:bg-[#1e1933] p-1 rounded-lg">
-                <button
-                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors bg-white dark:bg-[#292348] shadow-sm text-primary dark:text-white">Editor</button>
-                <button
-                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-[#9b92c9] hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#292348]/50">History</button>
-                <button
-                    class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-gray-600 dark:text-[#9b92c9] hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#292348]/50">Settings</button>
-            </nav>
-        </div> -->
-        <!-- <div class="flex items-center gap-3">
-            <button
-                class="flex items-center justify-center size-9 rounded-full hover:bg-gray-100 dark:hover:bg-[#292348] text-gray-600 dark:text-[#9b92c9] transition-colors">
-                <span class="material-symbols-outlined text-[20px]">notifications</span>
-            </button>
-            <div class="h-6 w-px bg-gray-200 dark:bg-[#292348]"></div>
-            <div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-white dark:border-[#292348] cursor-pointer"
-                data-alt="User profile avatar showing a smiling person"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBda-bDvpFnp-XErcBPKm6zA5RrdUUCyoL1QgaWT50hh7RXjOU38HRmoGVj2LZca0n97hBP9nP2KT_UJnnY27GiBvxd9bidLhXx6W8xHLc5xBqrZC7EwffbqkZ0DkM-eIzn6_RsZF8Ysp2KVoLR_n2NZS_N1FEv3eJbtVqyySy-rUzBoOR8pVTZkKbn95TplcYQ3BcYoAwjKqA2HgEJcz6C6QPJ_wGcdF9OcdRYEnaddZiaX-0-CxnKBMvsniqa4tEephrBssCCmIc");'>
-            </div>
-        </div> -->
+        <!-- Save indicator -->
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+            <span class="material-symbols-outlined text-[16px] text-green-500">check_circle</span>
+            <span>Auto-saved</span>
+        </div>
     </header>
     <!-- Main Content Area -->
     <main class="flex flex-1 overflow-hidden relative">
@@ -119,22 +133,9 @@
             </div>
             <!-- Editor -->
             <div class="flex-1 overflow-y-auto custom-scrollbar p-8">
-                <textarea
+                <textarea id="note-textarea"
                     class="w-full h-full bg-transparent border-0 focus:ring-0 text-gray-800 dark:text-gray-200 text-lg leading-relaxed resize-none p-0 placeholder-gray-300 dark:placeholder-gray-600 font-display"
-                    placeholder="Start typing your notes here...">Meeting notes regarding Q3 marketing strategy. 
-
-We need to focus on SEO and content creation to drive organic growth. The current numbers are lagging behind the quarterly projections by about 15%. 
-
-Key points discussed:
-- Blog cadence needs to increase to 3x per week.
-- We need a new video series for LinkedIn.
-- Budget approval is pending for the new ad campaign (approx $50k).
-- Competitor analysis shows they are targeting "enterprise automation" keywords heavily.
-
-Action items:
-1. Sarah to draft the content calendar.
-2. Mike to talk to finance about the budget.
-3. Team to review competitor ads by Friday.</textarea>
+                    placeholder="Start typing your notes here..."></textarea>
             </div>
         </section>
         <!-- Divider / Resizer Visual -->
@@ -146,97 +147,92 @@ Action items:
         </div>
         <!-- Right Pane: AI Output -->
         <section
-            class="flex-1 flex flex-col min-w-[300px] bg-gray-50 dark:bg-[#18152a] border-l border-gray-200 dark:border-border-dark">
+            class="flex-1 flex flex-col min-w-[300px] bg-gray-50 dark:bg-[#18152a] border-l border-gray-200 dark:border-border-dark relative">
+            <!-- Loading Overlay -->
+            <div id="loading-overlay"
+                class="loading-overlay hidden absolute inset-0 bg-black/30 z-30 flex items-center justify-center">
+                <div class="flex flex-col items-center gap-4 p-8 bg-surface-dark rounded-2xl shadow-2xl">
+                    <div class="relative">
+                        <span class="material-symbols-outlined text-5xl text-primary animate-spin">progress_activity</span>
+                    </div>
+                    <p class="text-white font-medium">Processing with AI...</p>
+                    <p class="text-gray-400 text-sm">This may take a few seconds</p>
+                </div>
+            </div>
             <!-- AI Toolbar / Mode Selector -->
             <div
                 class="flex items-center justify-between px-6 py-3 border-b border-gray-200 dark:border-border-dark/50 bg-gray-50/50 dark:bg-[#18152a]/50 backdrop-blur-sm">
                 <!-- Chips -->
                 <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
-                    <button
-                        class="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold shadow-lg shadow-primary/25 transition-transform active:scale-95 whitespace-nowrap">
+                    <button data-mode="summarize"
+                        class="mode-chip flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white rounded-full text-xs font-bold shadow-lg shadow-primary/25 transition-transform active:scale-95 whitespace-nowrap">
                         <span class="material-symbols-outlined text-[16px]">summarize</span>
-                        Summary
+                        <span>Summary</span>
                     </button>
-                    <button
-                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                    <button data-mode="expand"
+                        class="mode-chip flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
                         <span class="material-symbols-outlined text-[16px]">unfold_more</span>
-                        Expand
+                        <span>Expand</span>
                     </button>
-                    <button
-                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                    <button data-mode="critique"
+                        class="mode-chip flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
                         <span class="material-symbols-outlined text-[16px]">school</span>
-                        Critique
+                        <span>Critique</span>
                     </button>
-                    <button
-                        class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
+                    <button data-mode="translate"
+                        class="mode-chip flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3b3267] rounded-full text-xs font-medium border border-gray-200 dark:border-transparent transition-colors whitespace-nowrap">
                         <span class="material-symbols-outlined text-[16px]">translate</span>
-                        Translate
+                        <span>Translate</span>
                     </button>
+                    <!-- Language Selector for Translate -->
+                    <div class="hidden">
+                        <select id="translate-language"
+                            class="px-3 py-1.5 bg-white dark:bg-border-dark text-gray-600 dark:text-gray-300 rounded-full text-xs font-medium border border-gray-200 dark:border-transparent focus:ring-primary focus:border-primary">
+                            <option value="Arabic">Arabic</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                            <option value="German">German</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Russian">Russian</option>
+                            <option value="Italian">Italian</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2 ml-4">
-                    <button class="text-gray-400 hover:text-primary transition-colors" title="Copy to clipboard">
+                    <button id="copy-btn" class="text-gray-400 hover:text-primary transition-colors" title="Copy to clipboard">
                         <span class="material-symbols-outlined text-[20px]">content_copy</span>
                     </button>
-                    <button class="text-gray-400 hover:text-primary transition-colors" title="Regenerate">
+                    <button id="regenerate-btn" class="text-gray-400 hover:text-primary transition-colors" title="Regenerate">
                         <span class="material-symbols-outlined text-[20px]">refresh</span>
                     </button>
                 </div>
             </div>
             <!-- AI Content -->
-            <div class="flex-1 overflow-y-auto custom-scrollbar p-8 relative">
+            <div id="ai-output-container" class="flex-1 overflow-y-auto custom-scrollbar p-8 relative">
                 <!-- Subtle Gradient Background Effect -->
                 <div
                     class="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none">
                 </div>
-                <div class="relative z-10 space-y-6">
-                    <!-- Result Block -->
-                    <div class="animate-fade-in-up">
-                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-primary">stars</span>
-                            Executive Summary
-                        </h2>
-                        <div
-                            class="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-[#c4bcdc] leading-relaxed">
-                            <p class="mb-4">
-                                The Q3 marketing strategy emphasizes a shift towards organic growth channels,
-                                specifically <strong>SEO and content creation</strong>, to address a 15% deficit in
-                                quarterly projections.
-                            </p>
-                            <p class="mb-4">
-                                <strong>Strategic Imperatives:</strong>
-                            </p>
-                            <ul class="list-disc pl-5 space-y-2 mb-4 marker:text-primary">
-                                <li>Increase blog production cadence to 3x weekly.</li>
-                                <li>Launch a new LinkedIn video series to boost engagement.</li>
-                                <li>Counter competitor focus on "enterprise automation" keywords.</li>
-                            </ul>
-                            <p class="mb-4">
-                                <strong>Immediate Actions:</strong>
-                            </p>
-                            <div class="flex flex-col gap-2">
-                                <div
-                                    class="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#201c36] border border-gray-200 dark:border-[#3b3267]">
-                                    <input
-                                        class="mt-1 rounded border-gray-300 text-primary focus:ring-primary bg-transparent"
-                                        type="checkbox" />
-                                    <span class="text-sm">Finalize content calendar (Owner: Sarah)</span>
-                                </div>
-                                <div
-                                    class="flex items-start gap-3 p-3 rounded-lg bg-white dark:bg-[#201c36] border border-gray-200 dark:border-[#3b3267]">
-                                    <input
-                                        class="mt-1 rounded border-gray-300 text-primary focus:ring-primary bg-transparent"
-                                        type="checkbox" />
-                                    <span class="text-sm">Secure budget approval for $50k ad spend (Owner: Mike)</span>
-                                </div>
-                            </div>
+                <div id="ai-content-area" class="relative z-10 space-y-6">
+                    <!-- Initial State / Placeholder -->
+                    <div class="flex flex-col items-center justify-center h-full text-center py-16">
+                        <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-4xl text-primary">auto_awesome</span>
                         </div>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">AI-Powered Assistance</h3>
+                        <p class="text-gray-500 dark:text-gray-400 max-w-xs">
+                            Write your notes on the left and click "Process with AI" to get intelligent summaries, expansions, critiques, or translations.
+                        </p>
                     </div>
-                    <!-- Token Usage / Metadata -->
-                    <div
-                        class="pt-8 mt-8 border-t border-gray-200 dark:border-border-dark flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
-                        <span>Generated in 1.2s</span>
-                        <span>145 tokens used</span>
-                    </div>
+                </div>
+                <!-- Token Usage / Metadata -->
+                <div
+                    class="pt-8 mt-8 border-t border-gray-200 dark:border-border-dark flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
+                    <span id="generation-time">Ready to process</span>
+                    <span id="token-count"></span>
                 </div>
             </div>
         </section>
@@ -247,25 +243,18 @@ Action items:
             class="flex items-center gap-2 p-1.5 pl-2 pr-1.5 bg-white dark:bg-[#292348] rounded-xl border border-gray-200 dark:border-[#3b3267] shadow-xl">
             <div class="flex flex-col px-2">
                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Mode</span>
-                <span class="text-xs font-semibold text-gray-800 dark:text-white">Summarize</span>
+                <span id="current-mode-text" class="text-xs font-semibold text-gray-800 dark:text-white">Summary</span>
             </div>
             <div class="h-6 w-px bg-gray-200 dark:bg-[#3b3267] mx-1"></div>
-            <button
+            <button id="process-btn"
                 class="flex items-center gap-2 h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-all shadow-lg shadow-primary/30 group">
                 <span class="material-symbols-outlined text-[20px] group-hover:animate-pulse">motion_photos_auto</span>
                 <span>Process with AI</span>
             </button>
         </div>
     </div>
-    <script>
-        // Simple script to demonstrate active state on chips (optional for visual fidelity)
-        const chips = document.querySelectorAll('button');
-        chips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                // This is just for interaction feedback in the preview
-            });
-        });
-    </script>
+    <!-- Link JavaScript -->
+    <script src="note_editor.js"></script>
 </body>
 
 </html>
