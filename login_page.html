@@ -122,31 +122,27 @@
           </p>
         </div>
         <!-- Form -->
-        <form action="#" class="space-y-6" method="POST">
-          <!-- Email Field -->
+        <form action="dashboard.html" class="space-y-6" method="GET" id="login_form">
+          <!-- Username Field -->
           <div>
-            <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-2" for="email">Email
-              address</label>
+            <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-2"
+              for="login_username">Username</label>
             <div class="mt-2">
-              <input autocomplete="email"
-                class="block w-full rounded-lg border-0 py-3 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6"
-                id="email" name="email" placeholder="name@example.com" required="" type="email" />
+              <input autocomplete="username" id="login_username" name="login_username" placeholder="Enter your username"
+                required="" type="text"
+                class="block w-full rounded-lg border-0 py-3 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6" />
             </div>
           </div>
           <!-- Password Field -->
           <div>
             <div class="flex items-center justify-between mb-2">
               <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white"
-                for="password">Password</label>
-              <!-- <div class="text-sm">
-                <a class="font-medium text-primary hover:text-primary/80 dark:text-[#9b92c9] dark:hover:text-white transition-colors"
-                  href="#">Forgot password?</a>
-              </div> -->
+                for="login_password">Password</label>
             </div>
             <div class="relative mt-2 rounded-lg shadow-sm">
-              <input autocomplete="current-password"
-                class="block w-full rounded-lg border-0 py-3 px-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6"
-                id="password" name="password" placeholder="Enter your password" required="" type="password" />
+              <input autocomplete="current-password" id="login_password" name="login_password"
+                placeholder="Enter your password" required="" type="password"
+                class="block w-full rounded-lg border-0 py-3 px-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6" />
               <div
                 class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-slate-400 dark:text-[#9b92c9] hover:text-slate-600 dark:hover:text-white">
                 <span class="material-symbols-outlined" style="font-size: 20px;">visibility</span>
@@ -155,7 +151,7 @@
           </div>
           <!-- Submit Button -->
           <div>
-            <button
+            <button id="login-button"
               class="flex w-full justify-center rounded-lg bg-primary px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all duration-200"
               type="submit">
               Log In
@@ -198,6 +194,8 @@
       </div>
     </div>
   </div>
+
+  <script src="auth.js"></script>
 </body>
 
 </html>

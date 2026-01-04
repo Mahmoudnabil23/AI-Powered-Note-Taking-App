@@ -137,44 +137,56 @@
         <!-- Form -->
         <form class="flex flex-col gap-5">
           <!-- Name Field -->
-          <label class="flex flex-col w-full">
+          <!-- <label class="flex flex-col w-full">
             <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Full Name</p>
-            <input
+            <input id="sign_up_name"
               class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-gray-300 dark:border-[#3b3267] bg-white dark:bg-[#1e1933] focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-[#9b92c9] px-[15px] text-base font-normal leading-normal transition-shadow"
               placeholder="Enter your full name" value="" />
-          </label>
-          <!-- Email Field -->
-          <label class="flex flex-col w-full">
-            <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Email Address</p>
-            <input
-              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-gray-300 dark:border-[#3b3267] bg-white dark:bg-[#1e1933] focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-[#9b92c9] px-[15px] text-base font-normal leading-normal transition-shadow"
-              placeholder="name@example.com" type="email" value="" />
-          </label>
+          </label> -->
+          <!-- Username Field -->
+          <div>
+            <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white mb-2"
+              for="sign_up_username">Username</label>
+            <div class="mt-2">
+              <input autocomplete="username" id="sign_up_username" name="sign_up_username"
+                placeholder="Enter your username" required="" type="text"
+                class="block w-full rounded-lg border-0 py-3 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6" />
+            </div>
+          </div>
           <!-- Password Field -->
-          <label class="flex flex-col w-full relative">
-            <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Password</p>
-            <div class="relative">
-              <input
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-gray-300 dark:border-[#3b3267] bg-white dark:bg-[#1e1933] focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-[#9b92c9] px-[15px] text-base font-normal leading-normal transition-shadow pr-12"
-                placeholder="Create a password" type="password" value="" />
-              <button
-                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
-                type="button">
-                <span class="material-symbols-outlined text-[20px]">visibility</span>
-              </button>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white"
+                for="sign_up_password">Password</label>
             </div>
-          </label>
+            <div class="relative mt-2 rounded-lg shadow-sm">
+              <input autocomplete="current-password" id="sign_up_password" name="sign_up_password"
+                placeholder="Enter your password" required="" type="password"
+                class="block w-full rounded-lg border-0 py-3 px-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6" />
+              <div
+                class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-slate-400 dark:text-[#9b92c9] hover:text-slate-600 dark:hover:text-white">
+                <span class="material-symbols-outlined" style="font-size: 20px;">visibility</span>
+              </div>
+            </div>
+          </div>
           <!-- Confirm Password Field -->
-          <label class="flex flex-col w-full relative">
-            <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Confirm Password</p>
-            <div class="relative">
-              <input
-                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-gray-300 dark:border-[#3b3267] bg-white dark:bg-[#1e1933] focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-[#9b92c9] px-[15px] text-base font-normal leading-normal transition-shadow pr-12"
-                placeholder="Confirm your password" type="password" value="" />
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-sm font-medium leading-6 text-slate-900 dark:text-white"
+                for="sign_up_confirm_password">Password</label>
             </div>
-          </label>
+            <div class="relative mt-2 rounded-lg shadow-sm">
+              <input autocomplete="current-password" id="sign_up_confirm_password" name="sign_up_confirm_password"
+                placeholder="Enter your password" required="" type="password"
+                class="block w-full rounded-lg border-0 py-3 px-4 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary dark:bg-[#1e1933] dark:text-white dark:ring-[#3b3267] dark:placeholder-[#9b92c9] dark:focus:ring-primary sm:text-sm sm:leading-6" />
+              <div
+                class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-slate-400 dark:text-[#9b92c9] hover:text-slate-600 dark:hover:text-white">
+                <span class="material-symbols-outlined" style="font-size: 20px;">visibility</span>
+              </div>
+            </div>
+          </div>
           <!-- Submit Button -->
-          <button
+          <button id="sign-up-button"
             class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 shadow-lg shadow-primary/25 transition-all active:scale-[0.99]">
             <span class="truncate">Create Account</span>
           </button>
@@ -187,6 +199,8 @@
       </div>
     </section>
   </main>
+
+  <script src="auth.js"></script>
 </body>
 
 </html>
